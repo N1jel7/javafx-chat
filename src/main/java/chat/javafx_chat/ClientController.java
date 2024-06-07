@@ -24,8 +24,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable {
-    private static String host;
-    private static int port;
+    private static String host = "localhost";
+    private static int port = 8080;
 
     @FXML
     private Button button_send;
