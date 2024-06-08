@@ -1,5 +1,7 @@
-package chat.javafx_chat;
+package chat.javafx.client.service;
 
+import chat.javafx.client.ui.ChatController;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
 import java.io.*;
@@ -44,7 +46,7 @@ public class Client {
                 while(socket.isConnected()) {
                     try {
                         String messageFromServer = bufferedReader.readLine();
-                        ClientController.AddLabel(messageFromServer, vBox);
+                        ChatController.AddLabel(messageFromServer, vBox);
                     } catch (IOException e) {
                         System.out.println("Error receiving message from server.");
                         e.printStackTrace();

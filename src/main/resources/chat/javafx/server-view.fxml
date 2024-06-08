@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="ap_main" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="365.0" prefWidth="564.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.javafx.server.ui.ServerController">
+    <children>
+        <ScrollPane fx:id="mainSp" layoutX="41.0" layoutY="35.0" prefHeight="292.0" prefWidth="473.0">
+            <content>
+                <AnchorPane fx:id="mainAp" minHeight="0.0" minWidth="0.0" prefWidth="470.0">
+                    <children>
+                        <VBox fx:id="vboxMessages" maxHeight="0.0" prefHeight="292.0" prefWidth="473.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+        </ScrollPane>
+    </children>
+</AnchorPane>

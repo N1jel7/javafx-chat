@@ -1,4 +1,4 @@
-package chat.javafx_chat;
+package chat.javafx.server.service;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Server implements Runnable {
-    private final List<ServerHandler> connections;
+public class ServerCore implements Runnable {
+    private final List<ServerThread> connections;
     private final List<Consumer<String>> messageListeners;
     private final int port;
     private ServerSocket serverSocket;
 
-    public Server(int port) {
+    public ServerCore(int port) {
         messageListeners = new ArrayList<>();
         this.port = port;
         this.connections = new ArrayList<>();
@@ -32,8 +32,8 @@ public class Server implements Runnable {
         }
     }
 
-    public void sendMessageToAllClients(ServerHandler sender, String message){
-        for (ServerHandler connection : connections) {
+    public void sendMessageToAllClients(ServerThread sender, String message){
+        for (ServerThread connection : connections) {
             if(!connection.equals(sender)){
                 connection.sendMessageToClient(message);
             }
@@ -49,7 +49,7 @@ public class Server implements Runnable {
         while(!serverSocket.isClosed()){
             try {
                 Socket clientSocket = serverSocket.accept();
-                ServerHandler clientConnection = new ServerHandler(this, clientSocket);
+                ServerThread clientConnection = new ServerThread(this, clientSocket);
                 connections.add(clientConnection);
                 new Thread(clientConnection).start();
 

@@ -1,17 +1,15 @@
-package chat.javafx_chat;
-
-import javafx.scene.layout.VBox;
+package chat.javafx.server.service;
 
 import java.io.*;
 import java.net.Socket;
 
-public class ServerHandler implements Runnable{
-    private Server server;
+public class ServerThread implements Runnable{
+    private ServerCore server;
     private Socket socket;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
 
-    public ServerHandler(Server server, Socket socket) {
+    public ServerThread(ServerCore server, Socket socket) {
         try {
             this.server = server;
             this.socket = socket;
