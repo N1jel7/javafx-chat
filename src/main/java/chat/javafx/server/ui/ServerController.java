@@ -38,7 +38,6 @@ public class ServerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ServerCore server = new ServerCore(8080);
-        server.subscribeForNewMessages(message -> AddLabel(message, vboxMessages));
         new Thread(server).start();
 
         mainSp.vvalueProperty().bind(vboxMessages.heightProperty());

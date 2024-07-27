@@ -1,7 +1,9 @@
 package chat.javafx.client.ui;
 
 import chat.javafx.client.ClientApplication;
-import chat.javafx.client.service.Client;
+import chat.javafx.message.AbstractMessage;
+import chat.javafx.message.ChatMessage;
+import chat.javafx.message.MessageType;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,15 +22,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.io.IOException;
-import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ChatController implements Initializable {
-    private static String host = "localhost";
-    private static int port = 8080;
-
     @FXML
     private Button button_send;
 
@@ -44,11 +41,13 @@ public class ChatController implements Initializable {
     @FXML
     private VBox vboxMessages;
 
-    private Client client;
+    @FXML
+    private Button editButton;
+
 
     private ClientApplication application;
 
-    public void setApplication(ClientApplication application){
+    public void setApplication(ClientApplication application) {
         this.application = application;
     }
 
@@ -72,32 +71,33 @@ public class ChatController implements Initializable {
             hBox.getChildren().add(textFlow);
             vboxMessages.getChildren().add(hBox);
 
-            client.sendMessageToServer(messageToSend);
+            application.sendMessageToServer(new ChatMessage(messageToSend));
             tf_message.clear();
         }
     }
 
-    public void connect(String host, int port) {
-        try {
-            client = new Client(new Socket(host, port));
-            client.receiveMessageFromServer(vboxMessages);
-            System.out.println("Connection to the server.");
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void onMessageReceived(AbstractMessage message) {
+        if (message.getType().equals(MessageType.CHAT_MESSAGE)) {
+            ChatMessage chatMessage = (ChatMessage) message;
+            addLabel(chatMessage, vboxMessages);
         }
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         tf_message.setOnKeyPressed(e -> {
-            if(e.getCode().equals(KeyCode.ENTER)){
+            if (e.getCode().equals(KeyCode.ENTER)) {
                 sendMessage();
             }
         });
 
         button_send.setOnAction(e -> {
             sendMessage();
+        });
+
+        editButton.setOnAction(e -> {
+            application.showEditModal();
         });
 
         mainSp.vvalueProperty().bind(vboxMessages.heightProperty());
@@ -110,24 +110,31 @@ public class ChatController implements Initializable {
         });
     }
 
-    public static void AddLabel(String messageFromServer, VBox vBox) {
+    private static void addLabel(ChatMessage chatMessage, VBox vBox) {
+        Text username = new Text(chatMessage.getSender() + ": ");
+        HBox container = new HBox(username);
+        container.setAlignment(Pos.CENTER_LEFT);
+        container.setPadding(new Insets(0, 0, 0, 10));
+
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setPadding(new Insets(5, 5, 5, 10));
 
-        Text text = new Text(messageFromServer);
-        TextFlow textFlow = new TextFlow(text);
+
+        Text content = new Text(chatMessage.getText());
+        TextFlow textFlow = new TextFlow(content);
 
         textFlow.setStyle("-fx-background-color: rgb(233,233,235);" +
                 " -fx-background-radius: 20px");
         textFlow.setPadding(new Insets(5, 10, 5, 10));
         hBox.getChildren().add(textFlow);
+        container.getChildren().add(hBox);
 
 
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                vBox.getChildren().add(hBox);
+                vBox.getChildren().add(container);
             }
         });
     }

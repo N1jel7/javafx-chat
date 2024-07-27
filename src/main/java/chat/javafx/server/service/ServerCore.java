@@ -1,5 +1,7 @@
 package chat.javafx.server.service;
 
+import chat.javafx.message.AbstractMessage;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,7 +11,7 @@ import java.util.function.Consumer;
 
 public class ServerCore implements Runnable {
     private final List<ServerThread> connections;
-    private final List<Consumer<String>> messageListeners;
+    private final List<Consumer<AbstractMessage>> messageListeners;
     private final int port;
     private ServerSocket serverSocket;
 
@@ -19,7 +21,7 @@ public class ServerCore implements Runnable {
         this.connections = new ArrayList<>();
     }
 
-    public void subscribeForNewMessages(Consumer<String> subscriber){
+    public void subscribeForNewMessages(Consumer<AbstractMessage> subscriber){
         messageListeners.add(subscriber);
     }
 
@@ -32,13 +34,13 @@ public class ServerCore implements Runnable {
         }
     }
 
-    public void sendMessageToAllClients(ServerThread sender, String message){
+    public void sendMessageToAllClients(ServerThread sender, AbstractMessage message){
         for (ServerThread connection : connections) {
             if(!connection.equals(sender)){
                 connection.sendMessageToClient(message);
             }
         }
-        for (Consumer<String> messageListener : messageListeners) {
+        for (Consumer<AbstractMessage> messageListener : messageListeners) {
             messageListener.accept(message);
         }
     }
