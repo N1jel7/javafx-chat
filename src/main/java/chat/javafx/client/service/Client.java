@@ -54,21 +54,6 @@ public class Client {
 
     }
 
-    private void receiveMessage(AbstractMessage message) {
-        for (Consumer<AbstractMessage> subscriber : subscribers) {
-            subscriber.accept(message);
-        }
-        /*switch (message.getType()) {
-            case CHAT_MESSAGE -> {
-                ChatMessage chatMessage = (ChatMessage) message;
-                ChatController.AddLabel(chatMessage, vBox);
-            }
-            default -> {
-                System.out.println("Unknown message type: " + message.getType());
-            }
-        }*/
-    }
-
     public void startMessageReceiver() {
         new Thread(new Runnable() {
             @Override
@@ -76,7 +61,11 @@ public class Client {
                 try (ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream())) {
 
                     while (socket.isConnected()) {
-                        receiveMessage((AbstractMessage) inputStream.readObject());
+                        AbstractMessage message = (AbstractMessage) inputStream.readObject();
+                        for (Consumer<AbstractMessage> subscriber : subscribers) {
+                            subscriber.accept(message);
+                            System.out.println("Client had received message with type: " + message.getType());
+                        }
                     }
 
                 } catch (Exception e) {

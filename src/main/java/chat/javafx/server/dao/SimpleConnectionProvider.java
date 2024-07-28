@@ -9,7 +9,7 @@ public class SimpleConnectionProvider implements Supplier<Connection> {
 
     private static final String address = "jdbc:mysql://localhost:3306/chat-app";
     private static final String login = "root";
-    private static final String password = "31102012";
+    private static final String password = "";
 
     @Override
     public Connection get() {

@@ -3,17 +3,20 @@ package chat.javafx.client.ui;
 import chat.javafx.client.ClientApplication;
 import chat.javafx.message.UpdateUserInfo;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 
-import java.time.LocalDate;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class DataUpdateController {
+public class DataUpdateController implements Initializable {
 
-    ClientApplication clientApplication;
+    private ClientApplication application;
 
     @FXML
-    private TextField birthdayField;
+    private DatePicker birthdayField;
 
     @FXML
     private TextField firstnameField;
@@ -27,12 +30,27 @@ public class DataUpdateController {
     @FXML
     private Button saveButton;
 
+
+
     private void updateData() {
-        if(!birthdayField.getText().isBlank() && !firstnameField.getText().isBlank() && !lastnameField.getText().isBlank()) {
-            clientApplication.sendMessageToServer(new UpdateUserInfo(firstnameField.getText(), lastnameField.getText(), LocalDate.parse(birthdayField.getText())));
+        if(birthdayField.getValue() != null && !firstnameField.getText().isBlank() && !lastnameField.getText().isBlank()) {
+                    application.sendMessageToServer(new UpdateUserInfo(firstnameField.getText(), lastnameField.getText(), birthdayField.getValue()));
         }
     }
 
+    public void setApplication(ClientApplication application) {
+        this.application = application;
+    }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        saveButton.setOnAction(e -> {
+
+            updateData();
+            application.closeEditModal();
+
+        });
+
+    }
 }

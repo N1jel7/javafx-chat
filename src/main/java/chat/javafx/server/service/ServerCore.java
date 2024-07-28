@@ -1,6 +1,9 @@
 package chat.javafx.server.service;
 
 import chat.javafx.message.AbstractMessage;
+import chat.javafx.server.dao.SimpleConnectionProvider;
+import chat.javafx.server.dao.UserDao;
+import chat.javafx.server.dao.UserDaoImpl;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -11,18 +14,12 @@ import java.util.function.Consumer;
 
 public class ServerCore implements Runnable {
     private final List<ServerThread> connections;
-    private final List<Consumer<AbstractMessage>> messageListeners;
     private final int port;
     private ServerSocket serverSocket;
 
     public ServerCore(int port) {
-        messageListeners = new ArrayList<>();
         this.port = port;
         this.connections = new ArrayList<>();
-    }
-
-    public void subscribeForNewMessages(Consumer<AbstractMessage> subscriber){
-        messageListeners.add(subscriber);
     }
 
     private void startServer(){
@@ -40,9 +37,6 @@ public class ServerCore implements Runnable {
                 connection.sendMessageToClient(message);
             }
         }
-        for (Consumer<AbstractMessage> messageListener : messageListeners) {
-            messageListener.accept(message);
-        }
     }
 
     @Override
@@ -51,7 +45,7 @@ public class ServerCore implements Runnable {
         while(!serverSocket.isClosed()){
             try {
                 Socket clientSocket = serverSocket.accept();
-                ServerThread clientConnection = new ServerThread(this, clientSocket);
+                ServerThread clientConnection = new ServerThread(this, clientSocket, new UserDaoImpl(new SimpleConnectionProvider()));
                 connections.add(clientConnection);
                 new Thread(clientConnection).start();
 
@@ -59,14 +53,6 @@ public class ServerCore implements Runnable {
                 throw new RuntimeException("Can't accept new connection", e);
             }
 
-        }
-    }
-
-    public void stop(){
-        try {
-            serverSocket.close();
-        } catch (IOException e) {
-            throw new RuntimeException("Can't stop server", e);
         }
     }
 }

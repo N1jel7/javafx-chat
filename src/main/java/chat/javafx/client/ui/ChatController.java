@@ -1,9 +1,7 @@
 package chat.javafx.client.ui;
 
 import chat.javafx.client.ClientApplication;
-import chat.javafx.message.AbstractMessage;
-import chat.javafx.message.ChatMessage;
-import chat.javafx.message.MessageType;
+import chat.javafx.message.*;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -80,6 +78,9 @@ public class ChatController implements Initializable {
         if (message.getType().equals(MessageType.CHAT_MESSAGE)) {
             ChatMessage chatMessage = (ChatMessage) message;
             addLabel(chatMessage, vboxMessages);
+        } else if (message.getType().equals(MessageType.USER_DATA_RESPONSE)) {
+            application.showViewModal((ResponseUserInfo) message);
+
         }
 
     }
@@ -110,8 +111,11 @@ public class ChatController implements Initializable {
         });
     }
 
-    private static void addLabel(ChatMessage chatMessage, VBox vBox) {
+    private void addLabel(ChatMessage chatMessage, VBox vBox) {
         Text username = new Text(chatMessage.getSender() + ": ");
+        username.setOnMouseClicked(e -> {
+            application.sendMessageToServer(new RequestUserInfo(chatMessage.getSender()));
+        });
         HBox container = new HBox(username);
         container.setAlignment(Pos.CENTER_LEFT);
         container.setPadding(new Insets(0, 0, 0, 10));

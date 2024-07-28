@@ -1,21 +1,26 @@
 package chat.javafx.server.service;
 
 import chat.javafx.client.ui.ChatController;
-import chat.javafx.message.AbstractMessage;
-import chat.javafx.message.ChatMessage;
+import chat.javafx.message.*;
+import chat.javafx.server.dao.UserDao;
+import chat.javafx.server.dao.UserDaoImpl;
+import chat.javafx.server.dao.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.PreparedStatement;
 
 public class ServerThread implements Runnable{
     private ServerCore server;
     private Socket socket;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
+    private UserDao userDao;
 
-    public ServerThread(ServerCore server, Socket socket) {
+    public ServerThread(ServerCore server, Socket socket, UserDao userDao) {
         try {
+            this.userDao = userDao;
             this.server = server;
             this.socket = socket;
             this.objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -58,10 +63,39 @@ public class ServerThread implements Runnable{
     }
 
     private void receiveMessageFromClient(AbstractMessage message){
+
+        System.out.println("Server had received message with type: " + message.getType());
+
         switch (message.getType()){
             case CHAT_MESSAGE -> {
                 ChatMessage chatMessage = (ChatMessage) message;
                 server.sendMessageToAllClients(this, chatMessage);
+            }
+            case USER_DATA_UPDATE -> {
+                UpdateUserInfo updateUserInfo = (UpdateUserInfo) message;
+
+                UserDto userDto = new UserDto(updateUserInfo.getSender(), true, updateUserInfo.getFirstname(), updateUserInfo.getLastname(), updateUserInfo.getBirthday());
+
+                if(userDao.findUserByLogin(updateUserInfo.getSender()) == null) {
+                    userDao.saveUserData(userDto);
+                } else {
+                    userDao.updateUserData(userDto);
+                }
+
+            }
+            case USER_DATA_REQUEST -> {
+                RequestUserInfo requestUserInfo = (RequestUserInfo) message;
+                String login = requestUserInfo.getLogin();
+                UserDto user = userDao.findUserByLogin(login);
+                if(user == null) {
+                    ResponseUserInfo responseUserInfo = new ResponseUserInfo(login, false, null, null, null);
+                    System.out.println("Data of user " + login + " not found!");
+                    sendMessageToClient(responseUserInfo);
+                } else {
+                    ResponseUserInfo responseUserInfo = new ResponseUserInfo(user.getLogin(), user.isOnline(), user.getFirstname(), user.getLastname(), user.getBirthday());
+                    sendMessageToClient(responseUserInfo);
+                }
+
             }
             default -> {
                 System.out.println("Unknown message type: " + message.getType());
