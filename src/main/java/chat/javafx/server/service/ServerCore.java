@@ -33,7 +33,7 @@ public class ServerCore implements Runnable {
 
     public void sendMessageToAllClients(ServerThread sender, AbstractMessage message){
         for (ServerThread connection : connections) {
-            if(!connection.equals(sender)){
+            if(!connection.equals(sender) && connection.isAuthorized()){
                 connection.sendMessageToClient(message);
             }
         }

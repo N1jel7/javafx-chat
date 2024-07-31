@@ -23,7 +23,11 @@ import javafx.scene.text.TextFlow;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ChatController implements Initializable {
+import static chat.javafx.client.ClientApplication.ResourceType.EDITOR;
+import static chat.javafx.client.ClientApplication.ResourceType.VIEW;
+import static chat.javafx.client.ClientApplication.StageType.MODAL;
+
+public class ChatController extends AbstractController {
     @FXML
     private Button button_send;
 
@@ -41,13 +45,6 @@ public class ChatController implements Initializable {
 
     @FXML
     private Button editButton;
-
-
-    private ClientApplication application;
-
-    public void setApplication(ClientApplication application) {
-        this.application = application;
-    }
 
     private void sendMessage() {
         String messageToSend = tf_message.getText();
@@ -79,7 +76,7 @@ public class ChatController implements Initializable {
             ChatMessage chatMessage = (ChatMessage) message;
             addLabel(chatMessage, vboxMessages);
         } else if (message.getType().equals(MessageType.USER_DATA_RESPONSE)) {
-            application.showViewModal((ResponseUserInfo) message);
+            application.showResource(VIEW, MODAL);
 
         }
 
@@ -98,7 +95,7 @@ public class ChatController implements Initializable {
         });
 
         editButton.setOnAction(e -> {
-            application.showEditModal();
+            application.showResource(EDITOR, MODAL);
         });
 
         mainSp.vvalueProperty().bind(vboxMessages.heightProperty());

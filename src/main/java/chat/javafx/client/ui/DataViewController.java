@@ -11,10 +11,9 @@ import javafx.scene.control.TextField;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class DataViewController implements Initializable {
+import static chat.javafx.client.ClientApplication.StageType.MODAL;
 
-    private ClientApplication application;
-
+public class DataViewController extends AbstractController {
     @FXML
     private TextField birthdayField;
 
@@ -34,13 +33,6 @@ public class DataViewController implements Initializable {
     private TextField usernameField;
 
 
-
-    public void setApplication(ClientApplication application) {
-        this.application = application;
-    }
-
-
-
     public void viewUserInfo(ResponseUserInfo responseUserInfo) {
         usernameField.setText(responseUserInfo.getLogin());
         onlineField.setText(responseUserInfo.isOnline() ? "Online" : "Offline");
@@ -51,9 +43,8 @@ public class DataViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         closeButton.setOnAction(e -> {
-            application.closeViewModal();
+            application.closeStage(MODAL);
         });
 
     }

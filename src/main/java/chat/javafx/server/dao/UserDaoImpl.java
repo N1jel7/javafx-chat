@@ -6,7 +6,7 @@ import java.sql.*;
 import java.time.Instant;
 import java.util.function.Supplier;
 
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
     private final Supplier<Connection> connectionProvider;
 
     public UserDaoImpl(Supplier<Connection> connectionProvider) {
@@ -57,5 +57,42 @@ public class UserDaoImpl implements UserDao{
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public String findUserHashByLogin(String login) {
+        try (Connection connection = connectionProvider.get()) {
+            PreparedStatement preparedStatement;
+            preparedStatement = connection.prepareStatement("SELECT pass FROM `users` WHERE login = ?");
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.next() ) {
+                return null;
+            } else {
+                return  resultSet.getString("pass");
+            }
+
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void registerUser(String login, String password) {
+        try (Connection connection = connectionProvider.get()) {
+
+            PreparedStatement preparedStatement;
+                preparedStatement = connection.prepareStatement("INSERT INTO `users`(login, pass) VALUES (?, ?)");
+                preparedStatement.setString(1, login);
+                preparedStatement.setString(2, password);
+                preparedStatement.execute();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

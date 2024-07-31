@@ -27,48 +27,18 @@ public class ServerController implements Initializable {
 
 
     @FXML
-    private ScrollPane mainSp;
-
-    @FXML
-    private AnchorPane mainAp;
-
-    @FXML
-    private VBox vboxMessages;
+    private Button stopButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ServerCore server = new ServerCore(8080);
         new Thread(server).start();
 
-        mainSp.vvalueProperty().bind(vboxMessages.heightProperty());
-
-        vboxMessages.heightProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                mainAp.setMinHeight((double) newValue);
-            }
+        stopButton.setOnAction(e -> {
+            System.exit(0);
         });
     }
 
-    public static void AddLabel(String messageFromClient, VBox vBox) {
-        HBox hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER_LEFT);
-        hBox.setPadding(new Insets(5, 5, 5, 10));
-
-        Text text = new Text(messageFromClient);
-        TextFlow textFlow = new TextFlow(text);
-
-        textFlow.setStyle("-fx-background-color: rgb(233,233,235);" +
-                " -fx-background-radius: 20px");
-        textFlow.setPadding(new Insets(5, 10, 5, 10));
-        hBox.getChildren().add(textFlow);
 
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                vBox.getChildren().add(hBox);
-            }
-        });
-    }
 }

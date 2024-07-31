@@ -5,44 +5,48 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+import static chat.javafx.client.ClientApplication.ResourceType.REGISTER;
+import static chat.javafx.client.ClientApplication.StageType.MAIN;
+
+public class LoginController extends AbstractController {
 
     @FXML
     private TextField usernameField, hostField, portField;
 
     @FXML
-    private Button connectButton;
+    private PasswordField passField;
 
-    private String username, host, port;
+    @FXML
+    private Button connectButton, registerButton;
 
-    private ClientApplication application;
+    private String username, pass, host, port;
 
-    public void setApplication(ClientApplication application) {
-        this.application = application;
+    public void setUsername(String username) {
+        usernameField.setText(username);
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        registerButton.setOnMouseClicked(e -> {
+            application.showResource(REGISTER, MAIN);
+        });
+
         connectButton.setOnMouseClicked(e -> {
-            if(usernameField.getText().isBlank() || hostField.getText().isBlank() || portField.getText().isBlank()) {
-
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning");
-                alert.setHeaderText("Empty fields!");
-                alert.setContentText("Fill empty fields.");
-                alert.showAndWait();
-
+            if(usernameField.getText().isBlank() || hostField.getText().isBlank() || portField.getText().isBlank() || passField.getText().isBlank()) {
+                AlertUtil.createAlert(Alert.AlertType.WARNING, "Warning", "There are some empty fields!");
             } else {
                 username = usernameField.getText();
+                pass = passField.getText();
                 host = hostField.getText();
                 port = portField.getText();
-                application.connect(username, host, Integer.parseInt(port));
+                application.connect(host, Integer.parseInt(port));
+                application.authorize(username, pass);
             }
         });
     }

@@ -1,13 +1,12 @@
 package chat.javafx.client;
 
 import chat.javafx.client.service.Client;
+import chat.javafx.client.ui.AbstractController;
+import chat.javafx.client.ui.AlertUtil;
 import chat.javafx.client.ui.ChatController;
-import chat.javafx.client.ui.DataUpdateController;
-import chat.javafx.client.ui.DataViewController;
 import chat.javafx.client.ui.LoginController;
-import chat.javafx.message.AbstractMessage;
-import chat.javafx.message.RequestUserInfo;
-import chat.javafx.message.ResponseUserInfo;
+import chat.javafx.client.ui.dto.ViewResource;
+import chat.javafx.message.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -17,104 +16,143 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
+import java.util.Map;
+
+import static chat.javafx.client.ClientApplication.ResourceType.*;
+import static chat.javafx.client.ClientApplication.StageType.MAIN;
+import static chat.javafx.client.ClientApplication.StageType.MODAL;
+import static chat.javafx.message.MessageType.USER_AUTH_RESPONSE;
 
 public class ClientApplication extends Application {
-    private ChatController chatController;
-    private LoginController loginController;
-    private DataUpdateController dataUpdateController;
-    private DataViewController dataViewController;
-    private Scene chatScene;
-    private Scene loginScene;
-    private Scene editorScene;
-    private Scene viewScene;
+    private Map<ResourceType, ViewResource> resources;
     private Stage applicationStage;
-    private Stage editorStage;
-    private Stage viewStage;
+    private Stage modalStage;
     private Client client;
     private String username;
+
+    public enum ResourceType {
+        CHAT("Client - ", false),
+        LOGIN("Login", false),
+        EDITOR("Edit info", false),
+        VIEW("View info", false),
+        REGISTER("Registration", false),
+        WELCOME("Welcome!", false);
+
+        private final String title;
+        private final boolean resizable;
+
+        ResourceType(String title, boolean resizable) {
+            this.title = title;
+            this.resizable = resizable;
+        }
+    }
+
+    public enum StageType {
+        MAIN,
+        MODAL
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
         this.applicationStage = stage;
+        applicationStage.setOnCloseRequest(e -> System.exit(0));
 
-        FXMLLoader chatLoader = new FXMLLoader(ClientApplication.class.getResource("/chat/javafx/chat-view.fxml"));
-        FXMLLoader loginLoader = new FXMLLoader(ClientApplication.class.getResource("/chat/javafx/login-view.fxml"));
-        FXMLLoader editorLoader = new FXMLLoader(ClientApplication.class.getResource("/chat/javafx/info-editor.fxml"));
-        FXMLLoader viewLoader = new FXMLLoader(ClientApplication.class.getResource("/chat/javafx/info-view.fxml"));
+        modalStage = new Stage();
+        modalStage.initModality(Modality.APPLICATION_MODAL);
+        resources = Map.of(
+                CHAT, loadViewResource("/chat/javafx/chat"),
+                LOGIN, loadViewResource("/chat/javafx/login"),
+                EDITOR, loadViewResource("/chat/javafx/infoEditor"),
+                VIEW, loadViewResource("/chat/javafx/infoView"),
+                REGISTER, loadViewResource("/chat/javafx/register"),
+                WELCOME, loadViewResource("/chat/javafx/welcome")
+        );
 
-        editorScene = new Scene(editorLoader.load());
-        editorStage = new Stage();
-        editorStage.setScene(editorScene);
-        editorStage.initModality(Modality.APPLICATION_MODAL);
-
-        viewScene = new Scene(viewLoader.load());
-        viewStage = new Stage();
-        viewStage.setScene(viewScene);
-        viewStage.initModality(Modality.APPLICATION_MODAL);
-
-
-        chatScene = new Scene(chatLoader.load());
-        loginScene = new Scene(loginLoader.load());
-
-        chatController = chatLoader.getController();
-        loginController = loginLoader.getController();
-        dataUpdateController = editorLoader.getController();
-        dataViewController = viewLoader.getController();
-
-        chatController.setApplication(this);
-        loginController.setApplication(this);
-        dataUpdateController.setApplication(this);
-        dataViewController.setApplication(this);
-
-
-        stage.setOnCloseRequest(e -> System.exit(0));
-
-        stage.setTitle("Login");
-        stage.setResizable(false);
-        stage.setScene(loginScene);
-        stage.show();
+        showResource(WELCOME, MAIN);
     }
 
-    public void showEditModal(){
-        editorStage.showAndWait();
-    }
-
-    public void closeEditModal() {
-        editorStage.close();
-    }
-
-    public void showViewModal(ResponseUserInfo userInfo) {
-        dataViewController.viewUserInfo(userInfo);
-        Platform.runLater(()->{
-            viewStage.showAndWait();
+    public void showResource(ResourceType resourceType, StageType stageType) {
+        Platform.runLater(() -> {
+            Stage stage = getStage(stageType);
+            ViewResource viewResource = resources.get(resourceType);
+            stage.setScene(viewResource.getScene());
+            stage.setResizable(resourceType.resizable);
+            stage.setTitle(resourceType.title);
+            if (stage.equals(applicationStage)) {
+                stage.show();
+            } else {
+                stage.showAndWait();
+            }
         });
     }
 
-    public void closeViewModal() {
-        viewStage.close();
+    public void closeStage(StageType stageType) {
+        getStage(stageType).close();
     }
 
-    public void connect(String username, String host, int port) {
+    private Stage getStage(StageType stageType) {
+        return MODAL.equals(stageType) ? modalStage : applicationStage;
+    }
+
+    private ViewResource loadViewResource(String resourcePath) throws IOException {
+        FXMLLoader resourceLoader = new FXMLLoader(ClientApplication.class.getResource(resourcePath + "/view.fxml"));
+        Scene scene = new Scene(resourceLoader.load());
+        AbstractController controller = resourceLoader.getController();
+        controller.setApplication(this);
+        return new ViewResource(controller, scene);
+    }
+
+    public void register(String login, String password, String host, int port) {
+        connect(host, port);
+        sendMessageToServer(new RegistrationRequest(login, password));
+
+        client.subscribe(message -> {
+            RegistrationResponse registrationResponse = (RegistrationResponse) message;
+            if (registrationResponse.isRegister()) {
+                Platform.runLater(() -> {
+                    AlertUtil.createAlert(Alert.AlertType.INFORMATION, "Registration", "You successfully registered. Now you need to login into your account!");
+                    showResource(LOGIN, MAIN);
+                    ((LoginController) resources.get(LOGIN).getController()).setUsername(login);
+                });
+            } else {
+                Platform.runLater(() -> {
+                    AlertUtil.createAlert(Alert.AlertType.WARNING, "Registration", "Wrong credentials");
+                });
+            }
+
+        });
+    }
+
+    public void authorize(String username, String pass) {
+        this.username = username;
+        sendMessageToServer(new RequestAuth(pass));
+    }
+
+    public void connect(String host, int port) {
         try {
             client = Client.connect(host, port);
+
+            client.subscribe(message -> {
+                if (message.getType().equals(USER_AUTH_RESPONSE)) {
+                    ResponseAuthInfo responseAuthInfo = (ResponseAuthInfo) message;
+                    if (!responseAuthInfo.isAuthorized()) {
+                        Platform.runLater(() -> {
+                            AlertUtil.createAlert(Alert.AlertType.WARNING, "Authorization", "Wrong credentials!");
+                        });
+                    } else {
+                        Platform.runLater(() -> {
+                            applicationStage.setTitle("Client - " + username);
+                            client.subscribe(msg -> ((ChatController) resources.get(CHAT).getController()).onMessageReceived(msg));
+                            showResource(CHAT, MAIN);
+                            System.out.println("Connection to the server.");
+                        });
+                    }
+                }
+            });
+
         } catch (RuntimeException e) {
             System.out.println("Unable to connect to the server");
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Connection");
-            alert.setContentText("Unable to connect to the server");
-            alert.showAndWait();
-        }
-        if(client != null) {
-            this.username = username;
-            applicationStage.setTitle("Client - " + username);
-            applicationStage.setScene(chatScene);
-
-            client.subscribe(message -> chatController.onMessageReceived(message));
-            System.out.println("Connection to the server.");
+            AlertUtil.createAlert(Alert.AlertType.WARNING, "Connection", "Unnable to connect to the server!");
         }
     }
 
