@@ -1,21 +1,25 @@
 package chat.javafx.client;
 
 import chat.javafx.client.service.Client;
+import chat.javafx.client.service.MessageHandlerImpl;
 import chat.javafx.client.ui.AbstractController;
 import chat.javafx.client.ui.AlertUtil;
-import chat.javafx.client.ui.ChatController;
-import chat.javafx.client.ui.LoginController;
 import chat.javafx.client.ui.dto.ViewResource;
-import chat.javafx.message.*;
+import chat.javafx.message.AbstractMessage;
+import chat.javafx.message.RegistrationRequest;
+import chat.javafx.message.RequestAuth;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Map;
 
 import static chat.javafx.client.ClientApplication.ResourceType.*;
@@ -24,11 +28,21 @@ import static chat.javafx.client.ClientApplication.StageType.MODAL;
 import static chat.javafx.message.MessageType.USER_AUTH_RESPONSE;
 
 public class ClientApplication extends Application {
+    private static ClientApplication instance;
     private Map<ResourceType, ViewResource> resources;
     private Stage applicationStage;
     private Stage modalStage;
     private Client client;
     private String username;
+    private boolean displayNextUserResponse;
+
+    public boolean isDisplayNextUserResponse() {
+        return displayNextUserResponse;
+    }
+
+    public void setDisplayNextUserResponse(boolean displayNextUserResponse) {
+        this.displayNextUserResponse = displayNextUserResponse;
+    }
 
     public enum ResourceType {
         CHAT("Client - ", false),
@@ -52,6 +66,15 @@ public class ClientApplication extends Application {
         MODAL
     }
 
+    public static ClientApplication getInstance() {
+        return instance;
+    }
+
+    @Override
+    public void init() {
+        instance = this;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         this.applicationStage = stage;
@@ -71,6 +94,27 @@ public class ClientApplication extends Application {
         showResource(WELCOME, MAIN);
     }
 
+    public <T extends AbstractController> T getController(Class<T> controllerClass) {
+        for (ViewResource value : resources.values()) {
+            if (value.getController().getClass().equals(controllerClass)) {
+                return (T) value.getController();
+            }
+        }
+        throw new IllegalArgumentException("Controller class not exists");
+    }
+
+    public byte[] showFilechooser() {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(applicationStage);
+        try {
+            byte[] image = Files.readAllBytes(file.toPath());
+            return image;
+        } catch (IOException e) {
+
+        }
+        return null;
+    }
+
     public void showResource(ResourceType resourceType, StageType stageType) {
         Platform.runLater(() -> {
             Stage stage = getStage(stageType);
@@ -83,6 +127,13 @@ public class ClientApplication extends Application {
             } else {
                 stage.showAndWait();
             }
+        });
+    }
+
+    public void setTitle(StageType stageType, String title) {
+        Platform.runLater(() -> {
+            Stage stage = getStage(stageType);
+            stage.setTitle(title);
         });
     }
 
@@ -105,22 +156,6 @@ public class ClientApplication extends Application {
     public void register(String login, String password, String host, int port) {
         connect(host, port);
         sendMessageToServer(new RegistrationRequest(login, password));
-
-        client.subscribe(message -> {
-            RegistrationResponse registrationResponse = (RegistrationResponse) message;
-            if (registrationResponse.isRegister()) {
-                Platform.runLater(() -> {
-                    AlertUtil.createAlert(Alert.AlertType.INFORMATION, "Registration", "You successfully registered. Now you need to login into your account!");
-                    showResource(LOGIN, MAIN);
-                    ((LoginController) resources.get(LOGIN).getController()).setUsername(login);
-                });
-            } else {
-                Platform.runLater(() -> {
-                    AlertUtil.createAlert(Alert.AlertType.WARNING, "Registration", "Wrong credentials");
-                });
-            }
-
-        });
     }
 
     public void authorize(String username, String pass) {
@@ -132,27 +167,17 @@ public class ClientApplication extends Application {
         try {
             client = Client.connect(host, port);
 
+            client.subscribe(msg -> new MessageHandlerImpl().handleMessage(msg));
+
             client.subscribe(message -> {
                 if (message.getType().equals(USER_AUTH_RESPONSE)) {
-                    ResponseAuthInfo responseAuthInfo = (ResponseAuthInfo) message;
-                    if (!responseAuthInfo.isAuthorized()) {
-                        Platform.runLater(() -> {
-                            AlertUtil.createAlert(Alert.AlertType.WARNING, "Authorization", "Wrong credentials!");
-                        });
-                    } else {
-                        Platform.runLater(() -> {
-                            applicationStage.setTitle("Client - " + username);
-                            client.subscribe(msg -> ((ChatController) resources.get(CHAT).getController()).onMessageReceived(msg));
-                            showResource(CHAT, MAIN);
-                            System.out.println("Connection to the server.");
-                        });
-                    }
+
                 }
             });
 
         } catch (RuntimeException e) {
             System.out.println("Unable to connect to the server");
-            AlertUtil.createAlert(Alert.AlertType.WARNING, "Connection", "Unnable to connect to the server!");
+            AlertUtil.createAlert(Alert.AlertType.WARNING, "Connection", "Unable to connect to the server!");
         }
     }
 

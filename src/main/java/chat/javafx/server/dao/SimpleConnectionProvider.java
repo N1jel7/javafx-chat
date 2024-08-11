@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 public class SimpleConnectionProvider implements Supplier<Connection> {
 
-    private static final String address = "jdbc:mysql://localhost:3306/chat-app";
+    private static final String address = "jdbc:mysql://localhost:3306/chat-app?sessionVariables=sql_mode='NO_ENGINE_SUBSTITUTION'&jdbcCompliantTruncation=false";
     private static final String login = "root";
     private static final String password = "";
 

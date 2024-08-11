@@ -1,30 +1,34 @@
 package chat.javafx.client.ui;
 
-import chat.javafx.client.ClientApplication;
-import chat.javafx.message.*;
+import chat.javafx.client.ui.dto.ClientCache;
+import chat.javafx.message.ChatMessage;
+import chat.javafx.message.RequestUserInfo;
+import chat.javafx.message.ResponseUserInfo;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static chat.javafx.client.ClientApplication.ResourceType.EDITOR;
-import static chat.javafx.client.ClientApplication.ResourceType.VIEW;
 import static chat.javafx.client.ClientApplication.StageType.MODAL;
 
 public class ChatController extends AbstractController {
@@ -46,7 +50,22 @@ public class ChatController extends AbstractController {
     @FXML
     private Button editButton;
 
-    private void sendMessage() {
+    private Map<String, List<ImageView>> userImageViews = new HashMap<>();
+
+    public void setUserImage(String username, Image image) {
+        List<ImageView> imageViews = userImageViews.getOrDefault(username, Collections.emptyList());
+        for (ImageView imageView : imageViews) {
+            imageView.setImage(image);
+        }
+    }
+
+    private void addUserImageView(String username, ImageView imageView) {
+        List<ImageView> imageViews = userImageViews.getOrDefault(username, new ArrayList<>());
+        imageViews.add(imageView);
+        userImageViews.put(username, imageViews);
+    }
+
+    private void addOwnMessage() {
         String messageToSend = tf_message.getText();
         if (!messageToSend.isEmpty()) {
             HBox hBox = new HBox();
@@ -71,27 +90,17 @@ public class ChatController extends AbstractController {
         }
     }
 
-    public void onMessageReceived(AbstractMessage message) {
-        if (message.getType().equals(MessageType.CHAT_MESSAGE)) {
-            ChatMessage chatMessage = (ChatMessage) message;
-            addLabel(chatMessage, vboxMessages);
-        } else if (message.getType().equals(MessageType.USER_DATA_RESPONSE)) {
-            application.showResource(VIEW, MODAL);
-
-        }
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tf_message.setOnKeyPressed(e -> {
             if (e.getCode().equals(KeyCode.ENTER)) {
-                sendMessage();
+                addOwnMessage();
             }
         });
 
         button_send.setOnAction(e -> {
-            sendMessage();
+            addOwnMessage();
         });
 
         editButton.setOnAction(e -> {
@@ -108,14 +117,31 @@ public class ChatController extends AbstractController {
         });
     }
 
-    private void addLabel(ChatMessage chatMessage, VBox vBox) {
-        Text username = new Text(chatMessage.getSender() + ": ");
+    public void addReceivedMessage(ChatMessage chatMessage) {
+
+        String sender = chatMessage.getSender();
+        ResponseUserInfo cachedInfo = ClientCache.getInstance().findUserInfo(sender);
+        Image image;
+        if (cachedInfo == null) {
+            image = new Image("chat/javafx/chat/images/user_avatar.png");
+            application.sendMessageToServer(new RequestUserInfo(sender));
+        } else {
+            image = new Image(new ByteArrayInputStream(cachedInfo.getAvatar()));
+        }
+        ImageView avatar = new ImageView();
+        avatar.setFitWidth(40);
+        avatar.setFitHeight(40);
+        avatar.setImage(image);
+
+        Text username = new Text(sender + ":");
         username.setOnMouseClicked(e -> {
-            application.sendMessageToServer(new RequestUserInfo(chatMessage.getSender()));
+            application.sendMessageToServer(new RequestUserInfo(sender));
+            application.setDisplayNextUserResponse(true);
         });
-        HBox container = new HBox(username);
+        HBox container = new HBox(avatar, username);
         container.setAlignment(Pos.CENTER_LEFT);
-        container.setPadding(new Insets(0, 0, 0, 10));
+        container.setPadding(new Insets(0, 0, 0, 1));
+        container.setSpacing(5);
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER_LEFT);
@@ -135,7 +161,7 @@ public class ChatController extends AbstractController {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                vBox.getChildren().add(container);
+                vboxMessages.getChildren().add(container);
             }
         });
     }

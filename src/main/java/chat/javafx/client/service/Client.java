@@ -45,6 +45,7 @@ public class Client {
     public void sendMessageToServer(AbstractMessage message) {
         try {
             objectOutputStream.writeObject(message);
+            System.out.println("Client send message to the server with type: " + message.getType());
 
         } catch (IOException e) {
             System.out.println("Error sending message to the server");
@@ -62,15 +63,14 @@ public class Client {
 
                     while (socket.isConnected()) {
                         AbstractMessage message = (AbstractMessage) inputStream.readObject();
+                        System.out.println("Client had received message with type: " + message.getType());
                         for (Consumer<AbstractMessage> subscriber : subscribers) {
                             subscriber.accept(message);
-                            System.out.println("Client had received message with type: " + message.getType());
                         }
                     }
 
                 } catch (Exception e) {
-                    System.out.println("Error receiving message from server.");
-                    e.printStackTrace();
+                    System.out.println("Connection closed");
                 } finally {
                     closeEverything(socket, objectOutputStream);
                 }

@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.javafx.client.ui.RegisterController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.javafx.client.ui.RegisterController">
    <children>
-      <GridPane layoutX="-2.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: FLORALWHITE;">
+      <GridPane layoutX="-2.0" prefHeight="400.0" prefWidth="600.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -32,9 +32,9 @@
                   <Insets left="100.0" right="100.0" />
                </GridPane.margin>
             </TextField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="CENTER" wrappingWidth="600.0">
+            <Text fill="#3b3b3b" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="CENTER" wrappingWidth="600.0">
                <font>
-                  <Font size="20.0" />
+                  <Font name="Dubai Regular" size="22.0" />
                </font>
                <GridPane.margin>
                   <Insets top="10.0" />
@@ -45,9 +45,9 @@
                   <Insets left="100.0" right="100.0" />
                </GridPane.margin>
             </PasswordField>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" textAlignment="CENTER" wrappingWidth="600.0" GridPane.rowIndex="2">
+            <Text fill="#3b3b3b" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" textAlignment="CENTER" wrappingWidth="600.0" GridPane.rowIndex="2">
                <font>
-                  <Font size="20.0" />
+                  <Font name="Dubai Regular" size="22.0" />
                </font>
             </Text>
             <Button fx:id="registerButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="100.0" text="Register" GridPane.halignment="CENTER" GridPane.rowIndex="6">
@@ -55,12 +55,12 @@
                   <Font size="19.0" />
                </font>
             </Button>
-            <TextField fx:id="addressField" text="localhost" GridPane.rowIndex="5">
+            <TextField fx:id="addressField" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="100.0" right="210.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="portField" text="8080" GridPane.rowIndex="5">
+            <TextField fx:id="portField" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="400.0" right="100.0" />
                </GridPane.margin>
@@ -70,17 +70,17 @@
                   <Insets bottom="100.0" />
                </GridPane.margin>
             </Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hostname" wrappingWidth="600.0" GridPane.rowIndex="4">
+            <Text fill="#3b3b3b" strokeType="OUTSIDE" strokeWidth="0.0" text="Hostname" wrappingWidth="600.0" GridPane.rowIndex="4">
                <font>
-                  <Font size="20.0" />
+                  <Font name="Dubai Regular" size="22.0" />
                </font>
                <GridPane.margin>
                   <Insets left="100.0" top="10.0" />
                </GridPane.margin>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="600.0" GridPane.rowIndex="4">
+            <Text fill="#3b3b3b" strokeType="OUTSIDE" strokeWidth="0.0" text="Port" wrappingWidth="600.0" GridPane.rowIndex="4">
                <font>
-                  <Font size="20.0" />
+                  <Font name="Dubai Regular" size="22.0" />
                </font>
                <GridPane.margin>
                   <Insets left="400.0" top="10.0" />

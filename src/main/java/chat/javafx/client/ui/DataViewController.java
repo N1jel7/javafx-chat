@@ -1,13 +1,13 @@
 package chat.javafx.client.ui;
 
-import chat.javafx.client.ClientApplication;
 import chat.javafx.message.ResponseUserInfo;
-import chat.javafx.message.UpdateUserInfo;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,8 +32,15 @@ public class DataViewController extends AbstractController {
     @FXML
     private TextField usernameField;
 
+    @FXML
+    private ImageView avatarView;
+
 
     public void viewUserInfo(ResponseUserInfo responseUserInfo) {
+        byte[] avatar = responseUserInfo.getAvatar();
+        if(avatar != null && avatar.length > 0){
+            avatarView.setImage(new Image(new ByteArrayInputStream(avatar)));
+        }
         usernameField.setText(responseUserInfo.getLogin());
         onlineField.setText(responseUserInfo.isOnline() ? "Online" : "Offline");
         firstnameField.setText(responseUserInfo.getFirstname() == null ? "-" : responseUserInfo.getFirstname());

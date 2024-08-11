@@ -1,24 +1,37 @@
 package chat.javafx.message;
 
+import javafx.scene.image.Image;
+
+import javax.swing.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.Arrays;
 
 public class ResponseUserInfo extends AbstractMessage implements Serializable {
+    private byte[] avatar;
     private String login;
     private boolean online;
     private String firstname;
     private String lastname;
     private LocalDate birthday;
 
-    public ResponseUserInfo(String login, boolean online,String firstname, String lastname, LocalDate birthday) {
+    public ResponseUserInfo(byte[] avatar, String login, boolean online, String firstname, String lastname, LocalDate birthday) {
         super(MessageType.USER_DATA_RESPONSE);
+        this.avatar = Arrays.copyOf(avatar, avatar.length);
         this.login = login;
         this.online = online;
         this.firstname = firstname;
         this.lastname = lastname;
         this.birthday = birthday;
 
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = Arrays.copyOf(avatar, avatar.length);
     }
 
     public String getLogin() {

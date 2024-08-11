@@ -80,7 +80,7 @@ public class ServerThread implements Runnable {
                 case USER_DATA_UPDATE -> {
                     UpdateUserInfo updateUserInfo = (UpdateUserInfo) message;
 
-                    UserDto userDto = new UserDto(updateUserInfo.getSender(), true, updateUserInfo.getFirstname(), updateUserInfo.getLastname(), updateUserInfo.getBirthday());
+                    UserDto userDto = new UserDto(updateUserInfo.getAvatar(), updateUserInfo.getSender(), true, updateUserInfo.getFirstname(), updateUserInfo.getLastname(), updateUserInfo.getBirthday());
 
                     if (userDao.findUserByLogin(updateUserInfo.getSender()) == null) {
                         userDao.saveUserData(userDto);
@@ -94,11 +94,11 @@ public class ServerThread implements Runnable {
                     String login = requestUserInfo.getLogin();
                     UserDto user = userDao.findUserByLogin(login);
                     if (user == null) {
-                        ResponseUserInfo responseUserInfo = new ResponseUserInfo(login, false, null, null, null);
+                        ResponseUserInfo responseUserInfo = new ResponseUserInfo(new byte[0], login, false, null, null, null);
                         System.out.println("Data of user " + login + " not found!");
                         sendMessageToClient(responseUserInfo);
                     } else {
-                        ResponseUserInfo responseUserInfo = new ResponseUserInfo(user.getLogin(), user.isOnline(), user.getFirstname(), user.getLastname(), user.getBirthday());
+                        ResponseUserInfo responseUserInfo = new ResponseUserInfo(user.getAvatar(), user.getLogin(), user.isOnline(), user.getFirstname(), user.getLastname(), user.getBirthday());
                         sendMessageToClient(responseUserInfo);
                     }
                 }
@@ -120,7 +120,9 @@ public class ServerThread implements Runnable {
                     username = requestAuth.getSender();
                 }
             }
-            sendMessageToClient(new ResponseAuthInfo(authorized));
+            ResponseAuthInfo authResponse = new ResponseAuthInfo(authorized);
+            authResponse.setSender(message.getSender());
+            sendMessageToClient(authResponse);
         } else {
             hasher = BCrypt.withDefaults();
             RegistrationRequest registrationRequest = (RegistrationRequest) message;

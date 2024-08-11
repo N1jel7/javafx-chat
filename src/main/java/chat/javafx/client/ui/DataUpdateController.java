@@ -7,7 +7,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -24,22 +26,25 @@ public class DataUpdateController extends AbstractController {
     private TextField lastnameField;
 
     @FXML
-    private Button resetButton;
+    private Button resetButton, saveButton, uploadAvatarButton;
 
-    @FXML
-    private Button saveButton;
+    private byte[] image;
 
-    private void updateData() {
-        if(birthdayField.getValue() != null && !firstnameField.getText().isBlank() && !lastnameField.getText().isBlank()) {
-                    application.sendMessageToServer(new UpdateUserInfo(firstnameField.getText(), lastnameField.getText(), birthdayField.getValue()));
+    private void updateData(byte[] image) {
+        if(image != null && birthdayField.getValue() != null && !firstnameField.getText().isBlank() && !lastnameField.getText().isBlank()) {
+                    application.sendMessageToServer(new UpdateUserInfo(image, firstnameField.getText(), lastnameField.getText(), birthdayField.getValue()));
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        uploadAvatarButton.setOnMouseClicked(e -> {
+             image = application.showFilechooser();
+        });
+
         saveButton.setOnAction(e -> {
-            updateData();
+            updateData(image);
             application.closeStage(ClientApplication.StageType.MODAL);
         });
 
