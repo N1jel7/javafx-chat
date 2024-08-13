@@ -1,6 +1,6 @@
 package chat.javafx.client.ui;
 
-import chat.javafx.message.ResponseUserInfo;
+import chat.javafx.message.response.UserInfoResponse;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -36,16 +36,16 @@ public class DataViewController extends AbstractController {
     private ImageView avatarView;
 
 
-    public void viewUserInfo(ResponseUserInfo responseUserInfo) {
-        byte[] avatar = responseUserInfo.getAvatar();
+    public void viewUserInfo(UserInfoResponse userInfoResponse) {
+        byte[] avatar = userInfoResponse.getAvatar();
         if(avatar != null && avatar.length > 0){
             avatarView.setImage(new Image(new ByteArrayInputStream(avatar)));
         }
-        usernameField.setText(responseUserInfo.getLogin());
-        onlineField.setText(responseUserInfo.isOnline() ? "Online" : "Offline");
-        firstnameField.setText(responseUserInfo.getFirstname() == null ? "-" : responseUserInfo.getFirstname());
-        lastnameField.setText(responseUserInfo.getLastname() == null ? "-" : responseUserInfo.getLastname());
-        birthdayField.setText(responseUserInfo.getBirthday() == null ? "-" : responseUserInfo.getBirthday().toString());
+        usernameField.setText(userInfoResponse.getLogin());
+        onlineField.setText(userInfoResponse.isOnline() ? "Online" : "Offline");
+        firstnameField.setText(userInfoResponse.getFirstname() == null ? "-" : userInfoResponse.getFirstname());
+        lastnameField.setText(userInfoResponse.getLastname() == null ? "-" : userInfoResponse.getLastname());
+        birthdayField.setText(userInfoResponse.getBirthday() == null ? "-" : userInfoResponse.getBirthday().toString());
     }
 
     @Override

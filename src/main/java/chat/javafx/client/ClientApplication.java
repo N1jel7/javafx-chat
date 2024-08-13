@@ -6,8 +6,9 @@ import chat.javafx.client.ui.AbstractController;
 import chat.javafx.client.ui.AlertUtil;
 import chat.javafx.client.ui.dto.ViewResource;
 import chat.javafx.message.AbstractMessage;
-import chat.javafx.message.RegistrationRequest;
-import chat.javafx.message.RequestAuth;
+import chat.javafx.message.request.RegistrationRequest;
+import chat.javafx.message.request.AuthRequest;
+import chat.javafx.server.service.ServerThread;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,8 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +31,8 @@ import static chat.javafx.client.ClientApplication.StageType.MODAL;
 import static chat.javafx.message.MessageType.USER_AUTH_RESPONSE;
 
 public class ClientApplication extends Application {
+
+    private static final Logger log = LoggerFactory.getLogger(ClientApplication.class);
     private static ClientApplication instance;
     private Map<ResourceType, ViewResource> resources;
     private Stage applicationStage;
@@ -83,12 +88,12 @@ public class ClientApplication extends Application {
         modalStage = new Stage();
         modalStage.initModality(Modality.APPLICATION_MODAL);
         resources = Map.of(
-                CHAT, loadViewResource("/chat/javafx/chat"),
-                LOGIN, loadViewResource("/chat/javafx/login"),
-                EDITOR, loadViewResource("/chat/javafx/infoEditor"),
-                VIEW, loadViewResource("/chat/javafx/infoView"),
-                REGISTER, loadViewResource("/chat/javafx/register"),
-                WELCOME, loadViewResource("/chat/javafx/welcome")
+                CHAT, loadViewResource("/chat/javafx/client/chat"),
+                LOGIN, loadViewResource("/chat/javafx/client/login"),
+                EDITOR, loadViewResource("/chat/javafx/client/infoEditor"),
+                VIEW, loadViewResource("/chat/javafx/client/infoView"),
+                REGISTER, loadViewResource("/chat/javafx/client/register"),
+                WELCOME, loadViewResource("/chat/javafx/client/welcome")
         );
 
         showResource(WELCOME, MAIN);
@@ -160,7 +165,7 @@ public class ClientApplication extends Application {
 
     public void authorize(String username, String pass) {
         this.username = username;
-        sendMessageToServer(new RequestAuth(pass));
+        sendMessageToServer(new AuthRequest(pass));
     }
 
     public void connect(String host, int port) {
@@ -176,7 +181,7 @@ public class ClientApplication extends Application {
             });
 
         } catch (RuntimeException e) {
-            System.out.println("Unable to connect to the server");
+            log.warn("Unable to connect to the server");
             AlertUtil.createAlert(Alert.AlertType.WARNING, "Connection", "Unable to connect to the server!");
         }
     }

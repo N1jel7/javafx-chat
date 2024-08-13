@@ -1,8 +1,10 @@
 package chat.javafx.message;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public abstract class AbstractMessage implements Serializable {
+    @Serial
     private static final long serialVersionUID = 123123L;
 
     public AbstractMessage(MessageType type) {

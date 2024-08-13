@@ -1,4 +1,7 @@
-package chat.javafx.message;
+package chat.javafx.message.request;
+
+import chat.javafx.message.AbstractMessage;
+import chat.javafx.message.MessageType;
 
 import java.io.Serializable;
 

@@ -2,8 +2,8 @@ package chat.javafx.client.ui;
 
 import chat.javafx.client.ui.dto.ClientCache;
 import chat.javafx.message.ChatMessage;
-import chat.javafx.message.RequestUserInfo;
-import chat.javafx.message.ResponseUserInfo;
+import chat.javafx.message.request.UserInfoRequest;
+import chat.javafx.message.response.UserInfoResponse;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,7 +20,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -120,11 +119,11 @@ public class ChatController extends AbstractController {
     public void addReceivedMessage(ChatMessage chatMessage) {
 
         String sender = chatMessage.getSender();
-        ResponseUserInfo cachedInfo = ClientCache.getInstance().findUserInfo(sender);
+        UserInfoResponse cachedInfo = ClientCache.getInstance().findUserInfo(sender);
         Image image;
         if (cachedInfo == null) {
-            image = new Image("chat/javafx/chat/images/user_avatar.png");
-            application.sendMessageToServer(new RequestUserInfo(sender));
+            image = new Image("chat/javafx/client/chat/images/user_avatar.png");
+            application.sendMessageToServer(new UserInfoRequest(sender));
         } else {
             image = new Image(new ByteArrayInputStream(cachedInfo.getAvatar()));
         }
@@ -135,7 +134,7 @@ public class ChatController extends AbstractController {
 
         Text username = new Text(sender + ":");
         username.setOnMouseClicked(e -> {
-            application.sendMessageToServer(new RequestUserInfo(sender));
+            application.sendMessageToServer(new UserInfoRequest(sender));
             application.setDisplayNextUserResponse(true);
         });
         HBox container = new HBox(avatar, username);

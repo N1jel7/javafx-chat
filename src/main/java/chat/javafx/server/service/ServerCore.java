@@ -1,39 +1,59 @@
 package chat.javafx.server.service;
 
 import chat.javafx.message.AbstractMessage;
-import chat.javafx.server.dao.SimpleConnectionProvider;
-import chat.javafx.server.dao.UserDao;
-import chat.javafx.server.dao.UserDaoImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
-public class ServerCore implements Runnable {
+public class ServerCore extends Thread {
+    private static final Logger log = LoggerFactory.getLogger(ServerCore.class);
     private final List<ServerThread> connections;
-    private final int port;
+    private int port;
     private ServerSocket serverSocket;
+    private static ServerCore serverCore;
+    private RequestHandler requestHandler;
 
-    public ServerCore(int port) {
-        this.port = port;
+    ServerCore() {
         this.connections = new ArrayList<>();
     }
 
-    private void startServer(){
+    public void setRequestHandler(RequestHandler requestHandler) {
+        this.requestHandler = requestHandler;
+    }
+
+    public static ServerCore getInstance() {
+        if (serverCore == null) {
+            serverCore = new ServerCore();
+        }
+        return serverCore;
+    }
+
+    public void start(int port) {
+        this.port = port;
+        startServer();
+        start();
+    }
+
+
+    private void startServer() {
         try {
-            serverSocket =  new ServerSocket(port);
-            System.out.println("Starting local server on port " + port);
+            serverSocket = new ServerSocket(port);
+            log.info("Starting local server on port {}", port);
         } catch (IOException e) {
+            log.debug("Can't run local server on port {}", port, e);
             throw new RuntimeException("Can't run local server on port " + port, e);
         }
     }
 
-    public void sendMessageToAllClients(ServerThread sender, AbstractMessage message){
+    public void sendMessageToAllClients(String sender, AbstractMessage message) {
         for (ServerThread connection : connections) {
-            if(!connection.equals(sender) && connection.isAuthorized()){
+            String username = connection.getUsername();
+            if (username != null && !username.equals(sender)) {
                 connection.sendMessageToClient(message);
             }
         }
@@ -41,15 +61,15 @@ public class ServerCore implements Runnable {
 
     @Override
     public void run() {
-        startServer();
-        while(!serverSocket.isClosed()){
+        while (!serverSocket.isClosed()) {
             try {
                 Socket clientSocket = serverSocket.accept();
-                ServerThread clientConnection = new ServerThread(this, clientSocket, new UserDaoImpl(new SimpleConnectionProvider()));
+                ServerThread clientConnection = new ServerThread(clientSocket, requestHandler);
                 connections.add(clientConnection);
                 new Thread(clientConnection).start();
 
             } catch (IOException e) {
+                log.debug("Can't accept new connection", e);
                 throw new RuntimeException("Can't accept new connection", e);
             }
 

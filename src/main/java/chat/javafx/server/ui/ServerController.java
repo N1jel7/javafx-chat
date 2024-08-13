@@ -31,9 +31,6 @@ public class ServerController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ServerCore server = new ServerCore(8080);
-        new Thread(server).start();
-
         stopButton.setOnAction(e -> {
             System.exit(0);
         });

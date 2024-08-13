@@ -1,16 +1,17 @@
 package chat.javafx.server.dao;
 
+import chat.javafx.server.service.AuthServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.function.Supplier;
 
 public class UserDaoImpl implements UserDao {
+
+    private static final Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
     private final Supplier<Connection> connectionProvider;
 
     public UserDaoImpl(Supplier<Connection> connectionProvider) {

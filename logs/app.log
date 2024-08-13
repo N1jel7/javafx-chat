@@ -1,0 +1,278 @@
+[2024-08-13 17:13:12] INFO  ServerCore - Starting local server on port 8080
+[2024-08-13 17:27:21] INFO  ServerCore - Starting local server on port 8080
+[2024-08-13 17:27:30] WARN  Client - Can't create client
+java.net.ConnectException: Connection refused: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:752)
+	at java.base/java.net.Socket.connect(Socket.java:687)
+	at java.base/java.net.Socket.<init>(Socket.java:556)
+	at java.base/java.net.Socket.<init>(Socket.java:325)
+	at chat.javafx.client.service.Client.connect(Client.java:37)
+	at chat.javafx.client.ClientApplication.connect(ClientApplication.java:173)
+	at chat.javafx.client.ui.LoginController.connect(LoginController.java:53)
+	at chat.javafx.client.ui.LoginController.lambda$initialize$2(LoginController.java:89)
+	at javafx.base@22/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@22/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@22/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@22/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@22/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@22/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@22/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@22/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@22/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@22/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@22/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@22/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@22/javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.graphics@22/javafx.scene.Scene$ClickGenerator.postProcess(Scene.java:3689)
+	at javafx.graphics@22/javafx.scene.Scene$MouseHandler.process(Scene.java:3994)
+	at javafx.graphics@22/javafx.scene.Scene.processMouseEvent(Scene.java:1891)
+	at javafx.graphics@22/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2709)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:430)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
+	at javafx.graphics@22/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
+	at javafx.graphics@22/com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at javafx.graphics@22/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@22/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:184)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+[2024-08-13 17:27:30] WARN  ClientApplication - Unable to connect to the server
+[2024-08-13 17:30:58] INFO  ServerCore - Starting local server on port 8080
+[2024-08-13 17:31:07] WARN  Client - Can't create client
+java.net.ConnectException: Connection refused: connect
+	at java.base/sun.nio.ch.Net.connect0(Native Method)
+	at java.base/sun.nio.ch.Net.connect(Net.java:589)
+	at java.base/sun.nio.ch.Net.connect(Net.java:578)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:583)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:752)
+	at java.base/java.net.Socket.connect(Socket.java:687)
+	at java.base/java.net.Socket.<init>(Socket.java:556)
+	at java.base/java.net.Socket.<init>(Socket.java:325)
+	at chat.javafx.client.service.Client.connect(Client.java:37)
+	at chat.javafx.client.ClientApplication.connect(ClientApplication.java:173)
+	at chat.javafx.client.ui.LoginController.connect(LoginController.java:53)
+	at chat.javafx.client.ui.LoginController.lambda$initialize$2(LoginController.java:89)
+	at javafx.base@22/com.sun.javafx.event.CompositeEventHandler.dispatchBubblingEvent(CompositeEventHandler.java:86)
+	at javafx.base@22/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:232)
+	at javafx.base@22/com.sun.javafx.event.EventHandlerManager.dispatchBubblingEvent(EventHandlerManager.java:189)
+	at javafx.base@22/com.sun.javafx.event.CompositeEventDispatcher.dispatchBubblingEvent(CompositeEventDispatcher.java:59)
+	at javafx.base@22/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:58)
+	at javafx.base@22/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@22/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@22/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@22/com.sun.javafx.event.BasicEventDispatcher.dispatchEvent(BasicEventDispatcher.java:56)
+	at javafx.base@22/com.sun.javafx.event.EventDispatchChainImpl.dispatchEvent(EventDispatchChainImpl.java:114)
+	at javafx.base@22/com.sun.javafx.event.EventUtil.fireEventImpl(EventUtil.java:74)
+	at javafx.base@22/com.sun.javafx.event.EventUtil.fireEvent(EventUtil.java:54)
+	at javafx.base@22/javafx.event.Event.fireEvent(Event.java:198)
+	at javafx.graphics@22/javafx.scene.Scene$ClickGenerator.postProcess(Scene.java:3689)
+	at javafx.graphics@22/javafx.scene.Scene$MouseHandler.process(Scene.java:3994)
+	at javafx.graphics@22/javafx.scene.Scene.processMouseEvent(Scene.java:1891)
+	at javafx.graphics@22/javafx.scene.Scene$ScenePeerListener.mouseEvent(Scene.java:2709)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:411)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.GlassViewEventHandler$MouseEventNotification.run(GlassViewEventHandler.java:301)
+	at java.base/java.security.AccessController.doPrivileged(AccessController.java:400)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.GlassViewEventHandler.lambda$handleMouseEvent$2(GlassViewEventHandler.java:450)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.QuantumToolkit.runWithoutRenderLock(QuantumToolkit.java:430)
+	at javafx.graphics@22/com.sun.javafx.tk.quantum.GlassViewEventHandler.handleMouseEvent(GlassViewEventHandler.java:449)
+	at javafx.graphics@22/com.sun.glass.ui.View.handleMouseEvent(View.java:551)
+	at javafx.graphics@22/com.sun.glass.ui.View.notifyMouse(View.java:937)
+	at javafx.graphics@22/com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at javafx.graphics@22/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(WinApplication.java:184)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+[2024-08-13 17:31:07] WARN  ClientApplication - Unable to connect to the server
+[2024-08-13 17:31:55] INFO  Client - Client send message to the server with type: AUTH_REQUEST
+[2024-08-13 17:31:55] INFO  AuthServiceImpl - C authorized successfully
+[2024-08-13 17:31:55] INFO  RequestHandlerImpl - Server had received message with type: AUTH_REQUEST
+[2024-08-13 17:31:55] INFO  Client - Client had received message with type: USER_AUTH_RESPONSE
+[2024-08-13 17:31:55] INFO  MessageHandlerImpl - Connection to the server.
+[2024-08-13 17:31:58] DEBUG ServerThread - Error receiving message from client
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:318)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:346)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:796)
+	at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:1108)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:1095)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:1089)
+	at java.base/java.io.ObjectInputStream$PeekInputStream.peek(ObjectInputStream.java:2878)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peek(ObjectInputStream.java:3205)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3215)
+	at java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1698)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:525)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:483)
+	at chat.javafx.server.service.ServerThread.run(ServerThread.java:75)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+[2024-08-13 17:32:12] INFO  Client - Client send message to the server with type: AUTH_REQUEST
+[2024-08-13 17:32:12] INFO  RequestHandlerImpl - Server had received message with type: AUTH_REQUEST
+[2024-08-13 17:32:12] INFO  Client - Client had received message with type: USER_AUTH_RESPONSE
+[2024-08-13 17:32:15] DEBUG ServerThread - Error receiving message from client
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:318)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:346)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:796)
+	at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:1108)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:1095)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:1089)
+	at java.base/java.io.ObjectInputStream$PeekInputStream.peek(ObjectInputStream.java:2878)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peek(ObjectInputStream.java:3205)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3215)
+	at java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1698)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:525)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:483)
+	at chat.javafx.server.service.ServerThread.run(ServerThread.java:75)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+[2024-08-13 17:32:24] INFO  Client - Client send message to the server with type: AUTH_REQUEST
+[2024-08-13 17:32:24] INFO  RequestHandlerImpl - Server had received message with type: AUTH_REQUEST
+[2024-08-13 17:32:24] INFO  Client - Client had received message with type: USER_AUTH_RESPONSE
+[2024-08-13 17:32:31] INFO  Client - Client send message to the server with type: AUTH_REQUEST
+[2024-08-13 17:32:31] INFO  AuthServiceImpl - A authorized successfully
+[2024-08-13 17:32:31] INFO  RequestHandlerImpl - Server had received message with type: AUTH_REQUEST
+[2024-08-13 17:32:31] INFO  Client - Client had received message with type: USER_AUTH_RESPONSE
+[2024-08-13 17:32:31] INFO  MessageHandlerImpl - Connection to the server.
+[2024-08-13 17:33:05] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:33:05] DEBUG ServerThread - Error sending message to the client
+java.net.SocketException: Socket closed
+	at java.base/sun.nio.ch.NioSocketImpl.ensureOpenAndConnected(NioSocketImpl.java:163)
+	at java.base/sun.nio.ch.NioSocketImpl.beginWrite(NioSocketImpl.java:362)
+	at java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:407)
+	at java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:440)
+	at java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:819)
+	at java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1223)
+	at java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1210)
+	at java.base/java.io.ObjectOutputStream$BlockDataOutputStream.drain(ObjectOutputStream.java:1899)
+	at java.base/java.io.ObjectOutputStream$BlockDataOutputStream.setBlockDataMode(ObjectOutputStream.java:1808)
+	at java.base/java.io.ObjectOutputStream.writeNonProxyDesc(ObjectOutputStream.java:1302)
+	at java.base/java.io.ObjectOutputStream.writeClassDesc(ObjectOutputStream.java:1247)
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1443)
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1194)
+	at java.base/java.io.ObjectOutputStream.writeFatalException(ObjectOutputStream.java:1615)
+	at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:361)
+	at chat.javafx.server.service.ServerThread.sendMessageToClient(ServerThread.java:44)
+	at chat.javafx.server.service.ServerCore.sendMessageToAllClients(ServerCore.java:57)
+	at chat.javafx.server.service.RequestHandlerImpl.handleAuthorized(RequestHandlerImpl.java:43)
+	at chat.javafx.server.service.RequestHandlerImpl.handle(RequestHandlerImpl.java:34)
+	at chat.javafx.server.service.ServerThread.run(ServerThread.java:75)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+[2024-08-13 17:33:05] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:33:09] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:33:09] DEBUG ServerThread - Error sending message to the client
+java.net.SocketException: Socket closed
+	at java.base/sun.nio.ch.NioSocketImpl.ensureOpenAndConnected(NioSocketImpl.java:163)
+	at java.base/sun.nio.ch.NioSocketImpl.beginWrite(NioSocketImpl.java:362)
+	at java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:407)
+	at java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:440)
+	at java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:819)
+	at java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1223)
+	at java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1210)
+	at java.base/java.io.ObjectOutputStream$BlockDataOutputStream.drain(ObjectOutputStream.java:1899)
+	at java.base/java.io.ObjectOutputStream$BlockDataOutputStream.setBlockDataMode(ObjectOutputStream.java:1808)
+	at java.base/java.io.ObjectOutputStream.writeNonProxyDesc(ObjectOutputStream.java:1302)
+	at java.base/java.io.ObjectOutputStream.writeClassDesc(ObjectOutputStream.java:1247)
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1443)
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1194)
+	at java.base/java.io.ObjectOutputStream.writeFatalException(ObjectOutputStream.java:1615)
+	at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:361)
+	at chat.javafx.server.service.ServerThread.sendMessageToClient(ServerThread.java:44)
+	at chat.javafx.server.service.ServerCore.sendMessageToAllClients(ServerCore.java:57)
+	at chat.javafx.server.service.RequestHandlerImpl.handleAuthorized(RequestHandlerImpl.java:43)
+	at chat.javafx.server.service.RequestHandlerImpl.handle(RequestHandlerImpl.java:34)
+	at chat.javafx.server.service.ServerThread.run(ServerThread.java:75)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+[2024-08-13 17:33:09] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:33:10] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:33:10] DEBUG ServerThread - Error sending message to the client
+java.net.SocketException: Socket closed
+	at java.base/sun.nio.ch.NioSocketImpl.ensureOpenAndConnected(NioSocketImpl.java:163)
+	at java.base/sun.nio.ch.NioSocketImpl.beginWrite(NioSocketImpl.java:362)
+	at java.base/sun.nio.ch.NioSocketImpl.implWrite(NioSocketImpl.java:407)
+	at java.base/sun.nio.ch.NioSocketImpl.write(NioSocketImpl.java:440)
+	at java.base/sun.nio.ch.NioSocketImpl$2.write(NioSocketImpl.java:819)
+	at java.base/java.net.Socket$SocketOutputStream.implWrite(Socket.java:1223)
+	at java.base/java.net.Socket$SocketOutputStream.write(Socket.java:1210)
+	at java.base/java.io.ObjectOutputStream$BlockDataOutputStream.drain(ObjectOutputStream.java:1899)
+	at java.base/java.io.ObjectOutputStream$BlockDataOutputStream.setBlockDataMode(ObjectOutputStream.java:1808)
+	at java.base/java.io.ObjectOutputStream.writeNonProxyDesc(ObjectOutputStream.java:1302)
+	at java.base/java.io.ObjectOutputStream.writeClassDesc(ObjectOutputStream.java:1247)
+	at java.base/java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1443)
+	at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1194)
+	at java.base/java.io.ObjectOutputStream.writeFatalException(ObjectOutputStream.java:1615)
+	at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:361)
+	at chat.javafx.server.service.ServerThread.sendMessageToClient(ServerThread.java:44)
+	at chat.javafx.server.service.ServerCore.sendMessageToAllClients(ServerCore.java:57)
+	at chat.javafx.server.service.RequestHandlerImpl.handleAuthorized(RequestHandlerImpl.java:43)
+	at chat.javafx.server.service.RequestHandlerImpl.handle(RequestHandlerImpl.java:34)
+	at chat.javafx.server.service.ServerThread.run(ServerThread.java:75)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+[2024-08-13 17:33:10] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:33:59] INFO  ServerCore - Starting local server on port 8080
+[2024-08-13 17:34:05] INFO  Client - Client send message to the server with type: AUTH_REQUEST
+[2024-08-13 17:34:06] INFO  AuthServiceImpl - A authorized successfully
+[2024-08-13 17:34:06] INFO  RequestHandlerImpl - Server had received message with type: AUTH_REQUEST
+[2024-08-13 17:34:06] INFO  Client - Client had received message with type: USER_AUTH_RESPONSE
+[2024-08-13 17:34:06] INFO  MessageHandlerImpl - Connection to the server.
+[2024-08-13 17:34:07] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:34:07] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:10] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:34:10] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:12] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:34:12] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:13] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:34:13] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:19] INFO  Client - Client send message to the server with type: AUTH_REQUEST
+[2024-08-13 17:34:19] INFO  AuthServiceImpl - B authorized successfully
+[2024-08-13 17:34:19] INFO  RequestHandlerImpl - Server had received message with type: AUTH_REQUEST
+[2024-08-13 17:34:19] INFO  Client - Client had received message with type: USER_AUTH_RESPONSE
+[2024-08-13 17:34:19] INFO  MessageHandlerImpl - Connection to the server.
+[2024-08-13 17:34:21] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:34:21] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:21] INFO  Client - Client had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:21] INFO  Client - Client send message to the server with type: USER_DATA_REQUEST
+[2024-08-13 17:34:21] INFO  RequestHandlerImpl - Server had received message with type: USER_DATA_REQUEST
+[2024-08-13 17:34:21] INFO  Client - Client had received message with type: USER_DATA_RESPONSE
+[2024-08-13 17:34:21] INFO  MessageHandlerImpl - User info received.
+[2024-08-13 17:34:22] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:34:22] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:22] INFO  Client - Client had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:22] INFO  Client - Client send message to the server with type: CHAT_MESSAGE
+[2024-08-13 17:34:22] INFO  RequestHandlerImpl - Server had received message with type: CHAT_MESSAGE
+[2024-08-13 17:34:22] INFO  Client - Client had received message with type: CHAT_MESSAGE
+[2024-08-13 17:38:01] DEBUG ServerThread - Error receiving message from client
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:318)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:346)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:796)
+	at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:1108)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:1095)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:1089)
+	at java.base/java.io.ObjectInputStream$PeekInputStream.peek(ObjectInputStream.java:2878)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peek(ObjectInputStream.java:3205)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3215)
+	at java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1698)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:525)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:483)
+	at chat.javafx.server.service.ServerThread.run(ServerThread.java:75)
+	at java.base/java.lang.Thread.run(Thread.java:1570)
+[2024-08-13 17:38:03] DEBUG ServerThread - Error receiving message from client
+java.net.SocketException: Connection reset
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:318)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:346)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:796)
+	at java.base/java.net.Socket$SocketInputStream.implRead(Socket.java:1108)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:1095)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:1089)
+	at java.base/java.io.ObjectInputStream$PeekInputStream.peek(ObjectInputStream.java:2878)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peek(ObjectInputStream.java:3205)
+	at java.base/java.io.ObjectInputStream$BlockDataInputStream.peekByte(ObjectInputStream.java:3215)
+	at java.base/java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1698)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:525)
+	at java.base/java.io.ObjectInputStream.readObject(ObjectInputStream.java:483)
+	at chat.javafx.server.service.ServerThread.run(ServerThread.java:75)
+	at java.base/java.lang.Thread.run(Thread.java:1570)

@@ -25,6 +25,7 @@ public class ClientPropertiesHolder {
             properties = new Properties();
             properties.load(new FileInputStream(CONFIG_FILENAME));
         } catch (IOException e) {
+
             throw new RuntimeException(e);
         }
     }

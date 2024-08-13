@@ -1,15 +1,12 @@
 package chat.javafx.client.ui;
 
 import chat.javafx.client.ClientApplication;
-import chat.javafx.message.UpdateUserInfo;
+import chat.javafx.message.request.UserInfoUpdateRequest;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
 
-import java.io.File;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -32,7 +29,7 @@ public class DataUpdateController extends AbstractController {
 
     private void updateData(byte[] image) {
         if(image != null && birthdayField.getValue() != null && !firstnameField.getText().isBlank() && !lastnameField.getText().isBlank()) {
-                    application.sendMessageToServer(new UpdateUserInfo(image, firstnameField.getText(), lastnameField.getText(), birthdayField.getValue()));
+                    application.sendMessageToServer(new UserInfoUpdateRequest(image, firstnameField.getText(), lastnameField.getText(), birthdayField.getValue()));
         }
     }
 

@@ -1,12 +1,12 @@
 package chat.javafx.client.ui.dto;
 
-import chat.javafx.message.ResponseUserInfo;
+import chat.javafx.message.response.UserInfoResponse;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ClientCache {
-    private Map<String, ResponseUserInfo> users;
+    private Map<String, UserInfoResponse> users;
 
     private ClientCache(){
         users = new HashMap<>();
@@ -26,11 +26,11 @@ public class ClientCache {
         return clientCache;
     }
 
-    public void add(ResponseUserInfo infoResponse){
+    public void add(UserInfoResponse infoResponse){
         users.put(infoResponse.getLogin(), infoResponse);
     }
 
-    public ResponseUserInfo findUserInfo(String login){
+    public UserInfoResponse findUserInfo(String login){
         return users.get(login);
     }
 

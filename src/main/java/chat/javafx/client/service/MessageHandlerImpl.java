@@ -7,9 +7,15 @@ import chat.javafx.client.ui.DataViewController;
 import chat.javafx.client.ui.LoginController;
 import chat.javafx.client.ui.dto.ClientCache;
 import chat.javafx.message.*;
+import chat.javafx.message.response.AuthInfoResponse;
+import chat.javafx.message.response.RegistrationResponse;
+import chat.javafx.message.response.UserInfoResponse;
+import chat.javafx.server.service.ServerThread;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 
@@ -18,6 +24,8 @@ import static chat.javafx.client.ClientApplication.StageType.MAIN;
 import static chat.javafx.client.ClientApplication.StageType.MODAL;
 
 public class MessageHandlerImpl implements MessageHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(MessageHandlerImpl.class);
 
     @Override
     public void handleMessage(AbstractMessage message) {
@@ -29,24 +37,24 @@ public class MessageHandlerImpl implements MessageHandler {
                 chatController.addReceivedMessage(chatMessage);
             }
             case USER_DATA_RESPONSE -> {
-                ResponseUserInfo responseUserInfo = (ResponseUserInfo) message;
+                UserInfoResponse userInfoResponse = (UserInfoResponse) message;
 
-                ClientCache.getInstance().add(responseUserInfo);
+                ClientCache.getInstance().add(userInfoResponse);
 
                 ChatController chatController = application.getController(ChatController.class);
-                chatController.setUserImage(responseUserInfo.getLogin(), new Image(new ByteArrayInputStream(responseUserInfo.getAvatar())));
+                chatController.setUserImage(userInfoResponse.getLogin(), new Image(new ByteArrayInputStream(userInfoResponse.getAvatar())));
 
                 if(application.isDisplayNextUserResponse()) {
                     DataViewController dataViewController = application.getController(DataViewController.class);
-                    dataViewController.viewUserInfo(responseUserInfo);
+                    dataViewController.viewUserInfo(userInfoResponse);
                     application.showResource(VIEW, MODAL);
                     application.setDisplayNextUserResponse(false);
                 }
-                System.out.println("User info received.");
+                log.info("User info received.");
             }
             case USER_AUTH_RESPONSE -> {
-                ResponseAuthInfo responseAuthInfo = (ResponseAuthInfo) message;
-                if (!responseAuthInfo.isAuthorized()) {
+                AuthInfoResponse authInfoResponse = (AuthInfoResponse) message;
+                if (!authInfoResponse.isAuthorized()) {
                     Platform.runLater(() -> {
                         AlertUtil.createAlert(Alert.AlertType.WARNING, "Authorization", "Wrong credentials!");
                     });
@@ -54,8 +62,8 @@ public class MessageHandlerImpl implements MessageHandler {
                     Platform.runLater(() -> {
 
                         application.showResource(CHAT, MAIN);
-                        application.setTitle(MAIN, "Client - " + responseAuthInfo.getSender());
-                        System.out.println("Connection to the server.");
+                        application.setTitle(MAIN, "Client - " + authInfoResponse.getSender());
+                        log.info("Connection to the server.");
                     });
                 }
             }
@@ -75,7 +83,10 @@ public class MessageHandlerImpl implements MessageHandler {
                 }
 
             }
-            default -> throw new IllegalStateException("Unexpected value: " + message.getType());
+            default -> {
+                log.warn("Unexpected value: {}", message.getType());
+                throw new IllegalStateException("Unexpected value: " + message.getType());
+            }
         }
     }
 }

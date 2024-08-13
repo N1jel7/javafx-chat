@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="380.0" prefWidth="340.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.javafx.client.ui.DataUpdateController">
+<AnchorPane prefHeight="380.0" prefWidth="340.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.javafx.client.ui.DataUpdateController">
    <children>
-      <GridPane prefHeight="380.0" prefWidth="340.0" stylesheets="@../style.css">
+      <GridPane prefHeight="380.0" prefWidth="340.0" stylesheets="@../../style.css">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
          </columnConstraints>
@@ -25,21 +25,21 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <TextField fx:id="firstnameField" stylesheets="@../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <TextField fx:id="firstnameField" stylesheets="@../../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField fx:id="lastnameField" stylesheets="@../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <TextField fx:id="lastnameField" stylesheets="@../../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" stylesheets="@../style.css" text="Save" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+            <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" stylesheets="@../../style.css" text="Save" GridPane.halignment="LEFT" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin></Button>
-            <Button fx:id="resetButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" stylesheets="@../style.css" text="Reset" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+            <Button fx:id="resetButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" stylesheets="@../../style.css" text="Reset" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets right="5.0" />
                </GridPane.margin></Button>
@@ -67,7 +67,7 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <DatePicker fx:id="birthdayField" prefHeight="26.0" prefWidth="320.0" stylesheets="@../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <DatePicker fx:id="birthdayField" prefHeight="26.0" prefWidth="320.0" stylesheets="@../../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
             <Button fx:id="uploadAvatarButton" alignment="CENTER" mnemonicParsing="false" prefHeight="42.0" prefWidth="165.0" text="Upload your avatar" GridPane.halignment="CENTER" />
          </children>
       </GridPane>

@@ -1,13 +1,13 @@
-package chat.javafx.message;
+package chat.javafx.message.response;
 
-import javafx.scene.image.Image;
+import chat.javafx.message.AbstractMessage;
+import chat.javafx.message.MessageType;
 
-import javax.swing.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 
-public class ResponseUserInfo extends AbstractMessage implements Serializable {
+public class UserInfoResponse extends AbstractMessage implements Serializable {
     private byte[] avatar;
     private String login;
     private boolean online;
@@ -15,7 +15,7 @@ public class ResponseUserInfo extends AbstractMessage implements Serializable {
     private String lastname;
     private LocalDate birthday;
 
-    public ResponseUserInfo(byte[] avatar, String login, boolean online, String firstname, String lastname, LocalDate birthday) {
+    public UserInfoResponse(byte[] avatar, String login, boolean online, String firstname, String lastname, LocalDate birthday) {
         super(MessageType.USER_DATA_RESPONSE);
         this.avatar = Arrays.copyOf(avatar, avatar.length);
         this.login = login;

@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="490.0" prefWidth="340.0" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.javafx.client.ui.DataViewController">
+<AnchorPane prefHeight="490.0" prefWidth="340.0" stylesheets="@../../style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chat.javafx.client.ui.DataViewController">
    <children>
-      <GridPane layoutY="-1.0" prefHeight="600.0" prefWidth="340.0" stylesheets="@../style.css">
+      <GridPane layoutY="-1.0" prefHeight="600.0" prefWidth="340.0" stylesheets="@../../style.css">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -27,23 +27,23 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="usernameField" editable="false" prefHeight="26.0" prefWidth="3.0" stylesheets="@../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <TextField fx:id="usernameField" editable="false" prefHeight="26.0" prefWidth="3.0" stylesheets="@../../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin></TextField>
-            <TextField fx:id="onlineField" editable="false" stylesheets="@../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+            <TextField fx:id="onlineField" editable="false" stylesheets="@../../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin></TextField>
-            <TextField fx:id="firstnameField" editable="false" stylesheets="@../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="3">
+            <TextField fx:id="firstnameField" editable="false" stylesheets="@../../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin></TextField>
-            <TextField fx:id="birthdayField" editable="false" stylesheets="@../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="5">
+            <TextField fx:id="birthdayField" editable="false" stylesheets="@../../style.css" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin></TextField>
-            <Button fx:id="closeButton" alignment="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" stylesheets="@../style.css" text="Close" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <Button fx:id="closeButton" alignment="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="160.0" stylesheets="@../../style.css" text="Close" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" textAlignment="CENTER" wrappingWidth="338.9367733001709" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="10.0" top="-50.0" />
@@ -76,7 +76,7 @@
                   <Font size="14.0" />
                </font>
             </Text>
-            <TextField fx:id="lastnameField" editable="false" prefHeight="26.0" prefWidth="271.0" stylesheets="@../style.css" GridPane.rowIndex="4">
+            <TextField fx:id="lastnameField" editable="false" prefHeight="26.0" prefWidth="271.0" stylesheets="@../../style.css" GridPane.rowIndex="4">
                <opaqueInsets>
                   <Insets left="10.0" right="10.0" />
                </opaqueInsets>
